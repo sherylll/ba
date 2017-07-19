@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="">
+
+    <body>
+
+        <h1>Pi Hub</h1>
+        
+        <!-- add a form to add new devices -->
+
+        <!-- add delete button-->
+        <p>You are logged in as: {{ username }}</p>
+        <p><a href="{% url 'logout' %}">Log out</a></p>
+        <p>
+        {% for device in devices %}
+            <li><a href="/devices/{{ device.name }}/">{{ device.name }}</a> 
+                {%if state%}
+                    ON
+                {%else%}        
+                    OFF
+                {%endif%}
+            </li>
+        {% endfor %}
+        </p>
+        
+
+        
+
+    </body>
+</html>

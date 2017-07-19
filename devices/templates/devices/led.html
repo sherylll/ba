@@ -1,0 +1,21 @@
+
+<p>Your Permissions: {%if perm_off%}Turning Off LED{%endif%}{%if perm_on%}, Turning On LED{%endif%}</p>
+
+
+<p>
+  <button type='button' id='led_on'>LED ON</button>
+  <button type='button' id='led_off'>LED OFF</button>
+</p>
+
+<script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
+<script>
+  $(document).ready(function() {
+    $('#led_on').click(function() {
+      $.get('/devices/led/1');      
+    });
+    $('#led_off').click(function() {
+      $.get('/devices/led/0');
+    });
+  });
+</script>
