@@ -21,13 +21,17 @@ import uuid
 
 def get_keys(uid):
     users = User.objects.all()
-    uid_and_keys = ["uid",]
+    print users
+    uid_and_keys = ""
+    
     for u in users:
+        #print u.person.uid, uid
         if u.person.uid == uid:
             uid_and_keys = u.person.keys.split(',')
             break
+    print uid_and_keys
     return uid_and_keys[1:]
-    
+
 sessionID = 'sessionID'
 
 def auth_from_url(authString, request):
@@ -39,55 +43,40 @@ def auth_from_url(authString, request):
     
     #no need to encrypt nodeid? diff nodeid & uid? append uid before cred as url?
     keys = get_keys(uid)
-
+    #parse login info
     user_object = None
-    #if no keys found return empty user object
-    if  len(keys) == 0:
-        return user_object
-    
-    #user not logged in and wants to be logged in
-    if not username and login_info != '' :
+    if not username and login_info != '':
+        #keys is an array
         login_info = decrypt_final(keys, str(login_info), sessionID)
         #not a good idea to seperate with comma...
         #print login_info
         [u, p] = login_info.split(',')
-        #print "DEBUGGING...\n"
-        #print u, p
-        user_object = authenticate(username = u, password = p)
         print "DEBUGGING...\n"
-        print user_object
+        print u, p
+        user_object = authenticate(username = u, password = p)
         username = user_object.username
         if username is not None:
             login(request, user_object)
     return user_object
     
 def index(request):
-    username = None
-
-    if request.method == 'POST':
-        data = request.POST
-        auth_from_url(data['auth_str'], request)
+    #sessionID = request.session.session_key
     
     #if not logged in
     if not request.user.has_perm('devices.led_view'):
         path = request.path
         offset = path.find('devices') + 8
         authString = path[offset:]
-    
-        usr_obj = auth_from_url(authString, request)
-        #auth failed
-        if usr_obj:
-            username = usr_obj.username
+        
+        username = auth_from_url(authString, request).username
     else:
         username = request.user.username
     #for display
     devices = LED.objects.all()
     state = LED().read_led()
     
-    
     response = render(request, 'index.html', locals())
-
-    response.set_cookie('csrftoken', get_token(request))
+    response['sessionID'] = 'thisIsSessionID'
     return response
 
 def led(request):    

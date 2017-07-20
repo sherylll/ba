@@ -92,7 +92,7 @@ if __name__ == "__main__":
             f.close()
             #start server
         if status == 'successful':
-            Popen(['python','manage.py','runserver', '134.130.223.129:8080'])
+            Popen(['python','manage.py','runserver', '134.130.223.93:8080'])
 
     except KeyboardInterrupt:
         pass

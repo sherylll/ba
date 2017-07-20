@@ -103,7 +103,7 @@ def decrypt_final(keys, data, sessionID):
     fullmessage = ','.join([nodeid, iv, data, sessionID])
     computed_mac = hmac.new(str(passphrase), msg=str(fullmessage), digestmod=hashlib.sha1).hexdigest()
     #print fullmessage
-    print "hmac test\n"+recvd_hmac +'\n' +computed_mac
+    #print "hmac test\n"+recvd_hmac +'\n' +computed_mac
     if recvd_hmac == computed_mac:
         return data
     else:

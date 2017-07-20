@@ -34,7 +34,7 @@ class LED(models.Model):
         """Set the LED to the provided value (True = on, False = off).
         """
         GPIO.output(LED_PIN, value)
-        
+        #print value + "hi"
     def read_led(self):
         return GPIO.input(20)
     
