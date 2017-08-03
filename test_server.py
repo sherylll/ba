@@ -1,12 +1,19 @@
 import nfc
 import nfc.snep
 import time
-from AESMAC import decrypt_final, key_parser
+import django
+import os
 
+from AESMAC import decrypt_final, key_parser
+from django.db import IntegrityError
 successful_recvd = False
 my_snep_server = None
 uid = ''
+os.environ["DJANGO_SETTINGS_MODULE"] = 'homehubpi.settings'
+django.setup()
 
+from django.contrib.auth.models import User, Permission
+from devices.models import Person
 class DefaultSnepServer(nfc.snep.SnepServer):
     def __init__(self, llc):
         nfc.snep.SnepServer.__init__(self, llc, "urn:nfc:sn:snep")
@@ -17,20 +24,42 @@ class DefaultSnepServer(nfc.snep.SnepServer):
 
         #keys = nodeid,datakey,staticiv,ivkey,passphrase
         keys = nfc.ndef.TextRecord(ndef_message.pop()).text
+        #print keys
         helloMsg = nfc.ndef.TextRecord(ndef_message.pop()).text
-        #keys = '01020304,Bar12345Bar12345,abcdef2345678901,2345678901abcdef,mypassphrase'
         uid, keySet = key_parser(keys)
+        #print uid, keySet
+        if helloMsg[0:3] == "add":
+            try:
+                username = helloMsg[4:]
+                new_user = User.objects.create_user(username, password =  "demo_user")
+                print username + ' is added'
 
-        #use key set to decrypt 
-        print keySet
-        if decrypt_final(keySet, helloMsg, "sessionID") == "hello":
-            #TODO: if exist r, else a 
+                permission = Permission.objects.get(codename='led_view')
+                new_user.user_permissions.add(permission)
+                
+                permission = Permission.objects.get(codename='led_off')
+                new_user.user_permissions.add(permission)
+                
+                new_user.save()
+                someperson = Person()
+                someperson.keys = keys
+                someperson.uid = keys[:keys.index(",")]
+                someperson.user = new_user
+                someperson.save()
+            except IntegrityError:
+                #send a msg back to phone
+                pass
+                successful_recvd = True
+            return nfc.snep.Success
+        
+        elif  decrypt_final(keySet, helloMsg, "sessionID")== "hello":
+            #unnecessary
             f = open('keys.txt', 'w')
             f.write(keys+"\n")
-            f.close()
-            
+            f.close()            
             print "hello message verified"
             successful_recvd = True
+                       
         return nfc.snep.Success
 
 def startup(llc):
@@ -48,7 +77,6 @@ def snep_server(clf, sec):
     clf.connect(llcp={'on-startup': startup, 'on-connect': connected}, terminate=after3s)
     global successful_recvd
     return successful_recvd
-
 
 if __name__ == "__main__":
     #this loop deals with the unstable connection

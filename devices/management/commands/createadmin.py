@@ -23,6 +23,23 @@ class Command(BaseCommand):
         superperson = Person()
         superperson.user = user
         
+        """assign pins to hotplates
+        h0 = LED(name = 'Hotplate 0')
+        h0.pin_offset = 0
+        h0.save()
+                
+        h1 = LED(name = 'Hotplate 1')
+        h1.pin_offset = 1
+        h1.save()
+
+        h2 = LED(name = 'Hotplate 2')
+        h2.pin_offset = 2
+        h2.save()
+
+        h3 = LED(name = 'Hotplate 3')
+        h3.pin_offset = 3
+        h3.save()
+        """
         #read key set
         f = open('keys.txt', 'r+')
         line =  f.readline().strip()

@@ -3,19 +3,60 @@
 
 
 <p>
-  <button type='button' id='led_on'>LED ON</button>
-  <button type='button' id='led_off'>LED OFF</button>
+   Hotplate 0
+  <button type='button' id='on0'>ON</button>
+  <button type='button' id='off0'>OFF</button>
+</p>
+
+<p>
+   Hotplate 1
+  <button type='button' id='on1'>ON</button>
+  <button type='button' id='off1'>OFF</button>
+</p>
+
+<p>
+   Hotplate 2
+  <button type='button' id='on2'>ON</button>
+  <button type='button' id='off2'>OFF</button>
+</p>
+
+<p>
+   Hotplate 3
+  <button type='button' id='on3'>ON</button>
+  <button type='button' id='off3'>OFF</button>
 </p>
 
 <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
 <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.12.0.min.js"><\/script>')</script>
 <script>
   $(document).ready(function() {
-    $('#led_on').click(function() {
-      $.get('/devices/led/1');      
+    $('#on0').click(function() {
+      $.get('/devices/led/hp0/1');      
     });
-    $('#led_off').click(function() {
-      $.get('/devices/led/0');
+    $('#off0').click(function() {
+      $.get('/devices/led/hp0/0');
     });
+    
+    $('#on1').click(function() {
+      $.get('/devices/led/hp1/1');      
+    });
+    $('#off1').click(function() {
+      $.get('/devices/led/hp1/0');
+    });    
+    
+    $('#on2').click(function() {
+      $.get('/devices/led/hp2/1');      
+    });
+    $('#off2').click(function() {
+      $.get('/devices/led/hp2/0');
+    });
+
+    $('#on3').click(function() {
+      $.get('/devices/led/hp3/1');      
+    });
+    $('#off3').click(function() {
+      $.get('/devices/led/hp3/0');
+    });    
+    
   });
 </script>

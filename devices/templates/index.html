@@ -8,11 +8,15 @@
         <!-- add a form to add new devices -->
 
         <!-- add delete button-->
+        
+        
+        
+        
         <p>You are logged in as: {{ username }}</p>
         <p><a href="{% url 'logout' %}">Log out</a></p>
         <p>
         {% for device in devices %}
-            <li><a href="/devices/{{ device.name }}/">{{ device.name }}</a> 
+            <li><a href="/devices/led/">{{ device.name }}</a> 
                 {%if state%}
                     ON
                 {%else%}        

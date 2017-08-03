@@ -89,7 +89,7 @@ def decrypt_final(keys, data, sessionID):
     encrypted_nodeid = data[1]
     encrypted_data = data[2]
     recvd_hmac = data[3]
-    
+    #print data
 
     iv_decryptor = decryptor(b64encode(ivkey), b64encode(staticiv))
     iv = iv_decryptor(encrypted_iv)
@@ -100,6 +100,7 @@ def decrypt_final(keys, data, sessionID):
     data_decryptor = decryptor(b64encode(datakey), b64encode(iv))
     data = data_decryptor(encrypted_data)
 
+    
     fullmessage = ','.join([nodeid, iv, data, sessionID])
     computed_mac = hmac.new(str(passphrase), msg=str(fullmessage), digestmod=hashlib.sha1).hexdigest()
     #print fullmessage

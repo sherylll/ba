@@ -25,7 +25,7 @@ SECRET_KEY = '6--@%rcgt_sh_ghawq8k8-3y61dw7c4x-wlvd&$d()@ykp2(%m'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['134.130.223.93']
+ALLOWED_HOSTS = ['134.130.223.93', 'pc93.test.inets.rwth-aachen.de']
 
 # Application definition
 
@@ -122,6 +122,6 @@ STATIC_URL = '/static/'
 SESSION_COOKIE_AGE = 300
 SESSION_SAVE_EVERY_REQUEST = True
 #export DJANGO_SETTINGS_MODULE = homehubpi.settings
-LOGIN_REDIRECT_URL = '/devices/led/'
+LOGIN_REDIRECT_URL = '/devices/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 
