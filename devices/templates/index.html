@@ -17,7 +17,7 @@
         <p>
         {% for device in devices %}
             <li><a href="/devices/led/">{{ device.name }}</a> 
-                {%if state%}
+                {%if device.read_led%}
                     ON
                 {%else%}        
                     OFF

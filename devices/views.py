@@ -13,7 +13,6 @@ from django.middleware.csrf import get_token
 from .forms import *
 
 from django.core.exceptions import PermissionDenied
-
 from AESMAC import decrypt_final
 import os
 import uuid
@@ -108,16 +107,16 @@ def superuser_required(function):
     wrap.__name__ = function.__name__
     return wrap       
    
-@aes_hmac_verified    
+#@aes_hmac_verified    
 def index(request):
     
     #for display
     username = request.user.username
-    if not username:
-        return redirect('/login/')
+    #if not username:
+    #    return redirect('/login/')
     devices = LED.objects.all()
     print devices[0].name
-    state = devices[0].read_led()
+    #state = devices[0].read_led()
        
     response = render(request, 'index.html', locals())
     return response
@@ -153,7 +152,6 @@ def led(request):
                 pass
         except ValueError:
             pass
-        
     return render(request, 'devices/led.html', locals())
 
 #only displays the on/off state of a switch

@@ -4,7 +4,7 @@ import time
 import django
 import os
 
-from AESMAC import decrypt_final, key_parser
+from devices.AESMAC import decrypt_final, key_parser
 from django.db import IntegrityError
 successful_recvd = False
 my_snep_server = None

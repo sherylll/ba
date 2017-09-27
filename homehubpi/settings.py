@@ -122,6 +122,6 @@ STATIC_URL = '/static/'
 SESSION_COOKIE_AGE = 300
 SESSION_SAVE_EVERY_REQUEST = True
 #export DJANGO_SETTINGS_MODULE = homehubpi.settings
-LOGIN_REDIRECT_URL = '/devices/'
+#LOGIN_REDIRECT_URL = '/devices/'
 SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
-
+ROOT_PATH = os.path.split(os.path.abspath(__file__))[0]

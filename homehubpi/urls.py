@@ -24,6 +24,8 @@ urlpatterns = [
     url(r'^publisher/$', views.publisher, name='publisher'),
     
     url(r'^rest/', views.rest_set, name='rest'),
+    url(r'^test/', views.rest_test, name='test'),
+    url(r'^testpub/', views.rest_test_pubkey, name='rest_test_pubkey'),
     
     url(r'^devices/',include('devices.urls', namespace="devices")),
 ]

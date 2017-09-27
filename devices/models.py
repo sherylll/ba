@@ -30,6 +30,8 @@ class LED(models.Model):
     """Internet 'thing' that can control GPIO on a Raspberry Pi."""
     name = models.CharField(max_length=200, null = True, blank = True)
     pin_offset = models.IntegerField(null = True)
+    nfc_enabled = models.BooleanField(default = False)
+    
     def __str__(self):
         return self.name
     def set_led(self, value):
@@ -44,7 +46,15 @@ class LED(models.Model):
         #print self.name, self.pin_offset
         return GPIO.input(LED_PIN + self.pin_offset)
     
-    
+    def toggle_nfc(self, val):
+        self.nfc_enabled =  val
+        
+    def toggle_led(self):
+        if self.read_led():
+            self.set_led(False)
+        else:
+            self.set_led(True)
+            
     class Meta:
         app_label = "devices"
         permissions = (
@@ -71,10 +81,6 @@ class Switch(models.Model):
             ("switch_view", "can view Switch state"),
         )
 
-# class Person(models.Model):
-    # user = models.OneToOneField(User)
-    # uid = models.CharField(max_length=20)
-    
 
 class Person(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
